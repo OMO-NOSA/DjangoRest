@@ -70,7 +70,7 @@ class UserAdminChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ('email', 'password', 'active', 'admin')
 
     def clean_password(self):

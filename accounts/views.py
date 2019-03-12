@@ -59,7 +59,7 @@ def register(request):
         phone = request.POST['phone']
         email = request.POST['email']
         password = request.POST['password']
-        username = email.split('@')[0]
+        username = request.POST['username']
 
         if (email):
             user = CustomUser(username=username, email=email)

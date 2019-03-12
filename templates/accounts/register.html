@@ -17,9 +17,11 @@
             </div>
             <div class="card-body">
                 <!-- Alerts -->
-                <form method="POST">
+                <form action="{% url 'register' %}" method="post">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    <table>
+                    {{ form.as_table }}
+                    </table>
                     <input type="submit" value="Register" class="btn btn-secondary btn-block">
                 </form>
             </div>

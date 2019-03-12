@@ -6,54 +6,47 @@ from django.contrib.auth.models import (
 )
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self,email,phone,username, full_name=None,password=None):
+    def create_user(self,email, full_name=None,password=None):
         if not email:
             raise ValueError("User must have an email address")
         if not password:
             raise ValueError("Password is required")
-        if not username:
-            raise ValueError("User must enter username")
         
         
-        user_obj = self.model(
+        user = self.model(
             email = self.normalize_email(email),
-            full_name = full_name,
-            username = username,
             
         )
-        user_obj.set_password(password)
-        user_obj.staff = is_staff
-        user_obj.admin = is_admin
-        user_obj.active = is_active
-        user_obj.save(using=self._db)
-        return user_obj
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
     
-    def create_staffuser(self,email,username,full_name=None,password=None):
+    def create_staffuser(self,email,full_name=None,password=None):
         user = self.create_user(
             email,
-            username,
-            full_name=full_name,
             password=password,
-            is_staff = True
+            
         )
+        user.staff = True
+        user.save(using=self._db)
         return user
 
-    def create_superuser(self,email,username,full_name=None,password=None):
+    def create_superuser(self,email,full_name=None,password=None):
         user = self.create_user(
             email,
-            username,
-            full_name=full_name,
             password=password,
-            is_staff = True,
-            is_admin=True
+            
         )
+        user.staff = True
+        user.admin = True
+        user.save(using=self._db)
         return user
 class CustomUser(AbstractBaseUser):
     username = models.CharField(max_length=50, blank=False)
     full_name = models.CharField(max_length=255, blank=True, null=True)
     email = models.EmailField(max_length=50, unique=True)
     phone = models.CharField(max_length=20, blank=False)
-    active = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
     
@@ -63,7 +56,7 @@ class CustomUser(AbstractBaseUser):
     
     REQUIRED_FIELDS = []
 
-    object = CustomUserManager()
+    objects = CustomUserManager()
 
     def __str__(self):
         return self.email

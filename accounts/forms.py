@@ -11,12 +11,12 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email','phone','username')
+        fields = ('email','phone','username',)
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
         phone = self.cleaned_data.get('phone')
-        username = self.cleaned_data('username')
+        username = self.cleaned_data.get('username')
         qs = CustomUser.objects.filter(email=email)
         qs_user = CustomUser.objects.filter(username=username)
         if qs.exists():
@@ -34,6 +34,21 @@ class RegisterForm(forms.ModelForm):
             raise forms.ValidationError("Passwords don't match")
         return password2
 
+class LoginForm(forms.ModelForm):
+    username = forms.CharField(max_length = 100)
+    password = forms.CharField(widget = forms.PasswordInput())
+
+    class Meta:
+        model = CustomUser
+        fields = ('username',)
+
+    def clean_message(self):
+        username = self.cleaned_data.get("username")
+        dbuser = CustomUser.objects.filter(username=username)
+      
+        if not dbuser:
+           raise forms.ValidationError("User does not exist!")
+        return username
 
 class UserAdminCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
@@ -43,7 +58,7 @@ class UserAdminCreationForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email','username')
+        fields = ('email',)
 
     def clean_password2(self):
         # Check that the two password entries match

@@ -18,7 +18,7 @@ class CustomUserAdmin(BaseUserAdmin):
     list_display = ('email', 'admin','active','phone')
     list_filter = ('admin','active')
     fieldsets = (
-        (None, {'fields': ('id','phone','email', 'password')}),
+        (None, {'fields': ('phone','email', 'password')}),
         ('Personal info', {'fields': ()}),
         ('Permissions', {'fields': ('admin','active', )}),
     )
@@ -27,7 +27,7 @@ class CustomUserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2')}
+            'fields': ('email','username','password1', 'password2')}
         ),
     )
     search_fields = ('email',)

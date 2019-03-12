@@ -12,13 +12,14 @@ class CustomUserManager(BaseUserManager):
         if not password:
             raise ValueError("Password is required")
         if not username:
-            raise ValueError("User must have username")
+            raise ValueError("User must enter username")
         
         
         user_obj = self.model(
             email = self.normalize_email(email),
             full_name = full_name,
-            username = username,
+            username,
+            
         )
         user_obj.set_password(password)
         user_obj.staff = is_staff
@@ -48,8 +49,8 @@ class CustomUserManager(BaseUserManager):
         )
         return user
 class CustomUser(AbstractBaseUser):
+    username = models.CharField(max_length=50, blank=False)
     full_name = models.CharField(max_length=255, blank=True, null=True)
-    username = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(max_length=50, unique=True)
     phone = models.CharField(max_length=20, blank=False)
     active = models.BooleanField(default=False)

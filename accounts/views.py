@@ -54,29 +54,25 @@ from django.contrib import messages, auth
 #         messages.success(request, 'You are now logged out')
 #         return redirect ('index')
 
-def signup(request):
+def register(request):
     if request.method == "POST":
-        firstname = request.POST['fullname'].split()[0]
-        lastname = request.POST['fullname'].split()[1] if len(request.POST['fullname'].split()) > 1 else request.POST['fullname'].split()[0]
+        phone = request.POST['phone']
         email = request.POST['email']
         password = request.POST['password']
         username = email.split('@')[0]
 
-        if (firstname):
+        if (email):
             user = CustomUser(username=username, email=email)
             user.set_password(password)
-            user.first_name = firstname
-            user.last_name = lastname
             user.save()
-            send_mail('Linuxjobber Free Account Creation', 'Hello '+ firstname +' ' + lastname + ',\n' + 'Thank you for registering on Linuxjobber, your username is: ' + username + '\n Follow this link http://35.167.153.1:8001/login to login to you account\n\n Thanks & Regards \n Linuxjobber', 'settings.EMAIL_HOST_USER', [email])
-            return render(request, "home/registration/success.html", {'user': user})
+            return render(request, "accounts/login.html")
         else:
             error = True
-            return render(request, 'home/registration/signup.html', {'error':error})
+            return render(request, 'accounts/register.html')
     else:
-        return render(request, 'home/registration/signup.html') 
+        return render(request, 'accounts/register.html') 
 
-def log_in(request):
+def login(request):
     if request.method == "POST":
         user_name = request.POST['username']
         password = request.POST['password']
@@ -89,11 +85,11 @@ def log_in(request):
             return redirect("home:index")
         else:
             error_message = "yes"
-            return render(request, "home/registration/login.html", {'error_message' : error_message})
+            return render(request, "accounts/login.html")
     else:
-        return render(request, "home/registration/login.html", {'courses' : get_courses(), 'tools' : get_tools()})
+        return render(request, "accounts/login.html")
 
 
-def log_out(request):
+def logout(request):
     logout(request)
-    return redirect("home:login")
+    return redirect("login")

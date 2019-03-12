@@ -47,7 +47,7 @@ class CustomUserManager(BaseUserManager):
             is_admin=True
         )
         return user
-class CustomeUser(AbstractBaseUser):
+class CustomUser(AbstractBaseUser):
     full_name = models.CharField(max_length=255, blank=True, null=True)
     username = models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(max_length=50, unique=True)

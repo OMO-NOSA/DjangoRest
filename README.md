@@ -16,3 +16,20 @@ Achieved using Django Rest app and django_auth_token
 
 5. create Rest API for user to authenticate to the app using token authentication.
 6. create another API endpoint that will list all the tasks created by the user.
+
+
+================================================================================
+INSTRUCTIONS FOR RUNNING
+================================================================================
+
+1. pip install requirement.txt -r (installs all project dependencies)
+
+2. Run python manage.py runserver (starts development server)
+
+3. Run python manage.py createsuperuser (creates a user with administrative priviledges for login to admin site and testing api endpoint).
+
+4. Api endpoints:
+
+   Authentication == 127.0.0.1:8000/api/v1/login
+
+   viewing tasks  == 127.0.0.1:8000/api/v1/

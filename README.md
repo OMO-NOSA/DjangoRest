@@ -6,7 +6,7 @@ This Django application captures the following:
 2. Admin verify and approve user registration
 3. admin dashboard should contain the number all users, verified user and users pending approval.
 
-// yet to be achieved :(
+
 
 4. users should be able to login on the web using either of username or email along with the password and create task. (A task simply contains title, description and due_date)
 

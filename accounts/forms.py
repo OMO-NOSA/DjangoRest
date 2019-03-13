@@ -1,7 +1,5 @@
-# accounts.forms.py
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-
 from .models import CustomUser
 
 
@@ -9,22 +7,11 @@ class RegisterForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
 
+
     class Meta:
         model = CustomUser
-        fields = ('email','phone','username',)
+        fields = ('email','username','phone',)
 
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        phone = self.cleaned_data.get('phone')
-        username = self.cleaned_data.get('username')
-        qs = CustomUser.objects.filter(email=email)
-        qs_user = CustomUser.objects.filter(username=username)
-        if qs.exists():
-            raise forms.ValidationError("email or username is taken")
-
-            if qs_user.exists():
-                raise form.ValidationError("username is taken")
-        return email
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -44,9 +31,9 @@ class LoginForm(forms.ModelForm):
 
     def clean_message(self):
         username = self.cleaned_data.get("username")
-        dbuser = CustomUser.objects.filter(username=username)
+        qs = CustomUser.objects.filter(username=username)
       
-        if not dbuser:
+        if not qs:
            raise forms.ValidationError("User does not exist!")
         return username
 

@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.contrib import messages, auth
+from django.contrib.auth import authenticate, login , get_user_model
 from . models import CustomUser
 from . forms import (
                     RegisterForm,
@@ -26,13 +25,18 @@ def login(request):
         form = LoginForm(request.POST)
       
         if form.is_valid():
-            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request,user)
             return redirect('create')
     else:
         form = LoginForm()
             
     return render(request, 'accounts/login.html', {'form':form})
-		
+CustomUser = get_user_model()	
 
 def logout(request):
     logout(request)

@@ -4,6 +4,6 @@ from django.contrib import admin
 from . models import Task
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title','description', 'due_date')
+    list_display = ('id', 'title','description', 'due_date','user',)
 
 admin.site.register(Task, TaskAdmin)

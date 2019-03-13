@@ -1,6 +1,4 @@
 from django.db import models
-
-# Create your models here.
 from django.contrib.auth.models import (
     AbstractBaseUser, BaseUserManager
 )
@@ -37,6 +35,7 @@ class CustomUserManager(BaseUserManager):
             password=password,
             
         )
+        user.active = True
         user.staff = True
         user.admin = True
         user.save(using=self._db)
@@ -46,7 +45,7 @@ class CustomUser(AbstractBaseUser):
     full_name = models.CharField(max_length=255, blank=True, null=True)
     email = models.EmailField(max_length=50, unique=True)
     phone = models.CharField(max_length=20, blank=False)
-    active = models.BooleanField(default=True)
+    active = models.BooleanField(default=False)
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
     

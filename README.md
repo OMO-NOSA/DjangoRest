@@ -22,7 +22,7 @@ Achieved using Django Rest app and django_auth_token
 INSTRUCTIONS FOR RUNNING
 ================================================================================
 
-1. pip install requirement.txt -r (installs all project dependencies)
+1. pip install -r requirement.txt  (installs all project dependencies)
 
 2. Run python manage.py runserver (starts development server)
 
